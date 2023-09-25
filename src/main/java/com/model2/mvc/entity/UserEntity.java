@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserEntity {
+public class UserEntity extends BaseEntity {
 
     @Id
     private String userId;
@@ -23,18 +23,11 @@ public class UserEntity {
 
     @Column(length = 10, nullable = false)
     private String password;
-
     private String role;
-
     private String ssn;
-
-    private String cellPhone;
-
+    private String phone;
     private String addr;
-
     private String email;
-
-    private Date regDate;
 
     @OneToMany(mappedBy = "userEntity",fetch = FetchType.LAZY)
     private List<PurchaseEntity> purchaseEntities;

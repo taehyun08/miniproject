@@ -77,7 +77,7 @@
 	<c:forEach var = "purchase" items="${map.list}" >
 	<tr class="ct_list_pop">
 		<td align="Left">
-			<a href="/WEB-INF/purchase/getPurchase?tranNo=${purchase.tranNo}">${purchase.purchaseProd.prodName}</a>
+			<a href="/webapp/WEB-INF/view/purchase/getPurchase?tranNo=${purchase.tranNo}">${purchase.purchaseProd.prodName}</a>
 		</td>
 		<td></td>
 		<td align="left">
@@ -116,7 +116,7 @@
 		<td></td>
 		<td align="left">
 			<c:if test="${tranCode eq '3'}">
-				<a href="/WEB-INF/purchase/updateTranCode?tranNo=${purchase.tranNo}&tranCode=3">물건도착</a>
+				<a href="/webapp/WEB-INF/view/purchase/updateTranCode?tranNo=${purchase.tranNo}&tranCode=3">물건도착</a>
 			</c:if>
 		</td>
 		<td></td>
@@ -140,7 +140,7 @@
 			이전
 		</c:if>
 		<c:forEach var="i" begin="${page.beginUnitPage}" end="${page.endUnitPage}">
-			<a href="/WEB-INF/purchase/listPurchase?currentPage=${i}">${i}</a>
+			<a href="/webapp/WEB-INF/view/purchase/listPurchase?currentPage=${i}">${i}</a>
 		</c:forEach>
 		<c:if test="${page.endUnitPage != page.maxPage}">
 			다음
