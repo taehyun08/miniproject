@@ -26,7 +26,7 @@
 			});
 			
 			$( "td.ct_btn01:contains('이전')" ).on("click" , function() {
-				history.go(-1);
+				self.location = "/product/listProduct"
 			});
 			
 			$( "td.ct_btn01:contains('수정')" ).on("click" , function() {
@@ -34,7 +34,7 @@
 			});
 			
 			$( "td.ct_btn01:contains('취소')" ).on("click" , function() {
-				history.go(-1);
+				self.location = "/product/listProduct"
 			});
 			
 			$( "td.ct_btn01:contains('확인')" ).on("click" , function() {

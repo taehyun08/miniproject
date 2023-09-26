@@ -58,7 +58,7 @@ public class PurchaseController {
         System.out.println("/addPurchaseView.do");
         Product product = productService.getProduct(prodNo);
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("forward:/purchase/addPurchaseView");
+        modelAndView.setViewName("/purchase/addPurchaseView");
         modelAndView.addObject("product", product);
 
         return modelAndView;
@@ -73,7 +73,7 @@ public class PurchaseController {
         purchase.setPurchaseProd(product);
         purchase = purchaseService.addPurchase(purchase);
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("forward:/purchase/addPurchase");
+        modelAndView.setViewName("/purchase/addPurchase");
         modelAndView.addObject("purchase", purchase);
 
         return modelAndView;
@@ -89,7 +89,7 @@ public class PurchaseController {
 
         // Model 과 View 연결
         modelAndView.addObject("purchase", purchase);
-        modelAndView.setViewName("forward:/purchase/getPurchase");
+        modelAndView.setViewName("/purchase/getPurchase");
 
 
         return modelAndView;
@@ -102,6 +102,7 @@ public class PurchaseController {
         if(search.getCurrentPage() == 0) {
             search.setCurrentPage(1);
         }
+        search.setOrderBy("tranNo");
         int startRowNum = search.getCurrentPage() * pageSize - pageSize+1;
         int endRowNum = startRowNum + pageSize - 1;
         System.out.println("startRowNum :: " + startRowNum + "\nendRowNum:: " + endRowNum);
@@ -113,19 +114,14 @@ public class PurchaseController {
         inputMap.put("search", search);
 
 
-        List<Purchase> list = purchaseService.getPurchaseList(inputMap);
-        int count = purchaseService.getTotalCount(user.getUserId());
+        Map<String, Object> resultMap = purchaseService.getPurchaseList(inputMap);
 
-        Map<String,Object> resultMap = new HashMap<>();
-        resultMap.put("list", list);
-        resultMap.put("count", count);
-        //Business Logic
         ModelAndView modelAndView = new ModelAndView();
 
         Page p = new Page(search.getCurrentPage(), ((Integer)resultMap.get("count")).intValue(), pageUnit, pageSize);
         modelAndView.addObject("map", resultMap);
         modelAndView.addObject("page", p);
-        modelAndView.setViewName("forward:/purchase/listPurchase");
+        modelAndView.setViewName("/purchase/listPurchase");
         // Model 과 View 연결
         return modelAndView;
     }
@@ -139,7 +135,7 @@ public class PurchaseController {
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("purchase", purchase);
-        modelAndView.setViewName("forward:/purchase/updatePurchaseView");
+        modelAndView.setViewName("/purchase/updatePurchaseView");
 
         return modelAndView;
     }

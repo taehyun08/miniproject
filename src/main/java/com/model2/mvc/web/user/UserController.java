@@ -72,7 +72,7 @@ public class UserController {
         // Model 과 View 연결
         model.addAttribute("user", user);
 
-        return "forward:/user/getUser";
+        return "/user/getUser";
     }
 
     //@RequestMapping("/updateUserView.do")

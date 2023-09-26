@@ -10,14 +10,14 @@
 <head>
 	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 	<script type="text/javascript">
-	<!--
+
 		$(function() {
-			 $( "td.ct_btn01:contains('확인')" ).on("click" , function() {
-				 $("form").attr("method" , "POST").attr("action" , "/purchase/updatePurchaseView?tranNo=0").submit();
+			$( "td.ct_btn01:contains('확인')" ).on("click" , function() {
+				self.location = "/product/listProduct?menu=search";
 			});
 		});	
 	
-	-->
+
 	</script>
 
 <title>Insert title here</title>
@@ -74,6 +74,9 @@
 		<td>${purchase.divyDate }</td>
 		<td></td>
 	</tr>
+	<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
+		확인
+	</td>
 </table>
 </form>
 

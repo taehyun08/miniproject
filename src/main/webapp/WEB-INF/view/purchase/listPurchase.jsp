@@ -73,7 +73,7 @@
 		<td colspan="15" bgcolor="808285" height="1"></td>
 	</tr>
 
-	<c:set var="no" value="${search.pageUnit }"/>
+	<c:set var="no" value="${map.search.pageUnit }"/>
 	<c:forEach var = "purchase" items="${map.list}" >
 	<tr class="ct_list_pop">
 		<td align="Left">
