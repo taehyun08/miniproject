@@ -18,9 +18,8 @@ public class Page {
         this.pageSize = pageSize;
         this.currentPage = currentPage;
         this.maxPage = (totalCount-1) / pageSize + 1;
-
         this.beginUnitPage = currentPage - (currentPage-1)%pageUnit;
-        this.endUnitPage = (maxPage < beginUnitPage + pageUnit - 1 ? maxPage : beginUnitPage + pageUnit - 1);
+        this.endUnitPage = Math.min(maxPage, beginUnitPage + pageUnit - 1);
         if(endUnitPage > maxPage){
             endUnitPage = maxPage;
         }

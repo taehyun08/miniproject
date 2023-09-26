@@ -14,14 +14,12 @@ public interface PurchaseService {
 
     public Purchase getPurchase(int tranNo) throws Exception;
 
-    public List<Purchase> getPurchaseList(Map<String, Object> map) throws Exception;
+    public Map<String, Object> getPurchaseList(Map<String, Object> map) throws Exception;
 
     public Purchase updatePurchase(Purchase purchase) throws Exception;
 
     public void updateTranCode(Purchase purchase) throws Exception;
 
     public void deletePurchase(int tranNo) throws Exception;
-
-    public int getTotalCount(String userId) throws Exception;
 
 }

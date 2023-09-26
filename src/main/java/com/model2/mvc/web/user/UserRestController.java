@@ -32,7 +32,7 @@ public class UserRestController {
     @GetMapping( value="json/getUser/{userId}")
     public User getUser( @PathVariable String userId ) throws Exception{
 
-        System.out.println("/WEB-INF/user/json/getUser : GET");
+        System.out.println("/webapp/WEB-INF/view/user/json/getUser : GET");
         //Business Logic
         return userService.getUser(userId);
     }
@@ -41,7 +41,7 @@ public class UserRestController {
     public User login(	@RequestBody User user,
                           HttpSession session ) throws Exception{
 
-        System.out.println("/WEB-INF/user/json/login : POST");
+        System.out.println("/webapp/WEB-INF/view/user/json/login : POST");
         //Business Logic
         System.out.println("::"+user);
         User dbUser=userService.getUser(user.getUserId());

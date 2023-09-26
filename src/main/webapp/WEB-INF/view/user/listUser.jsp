@@ -27,7 +27,7 @@
 <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////// 
 <form name="detailForm" action="/listUser.do" method="post">
 ////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
-<form name="detailForm" action="/WEB-INF/user/listUser" method="post">
+<form name="detailForm" action="/webapp/WEB-INF/view/user/listUser" method="post">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -101,7 +101,7 @@
 				<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				<a href="/getUser.do?userId=${user.userId}">${user.userId}</a></td>
                	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
-			<a href="/WEB-INF/user/getUser?userId=${user.userId}">${user.userId}</a></td>
+			<a href="/webapp/WEB-INF/view/user/getUser?userId=${user.userId}">${user.userId}</a></td>
 			<td></td>
 			<td align="left">${user.userName}</td>
 			<td></td>
@@ -120,7 +120,7 @@
 		<td align="center">
 		   <input type="hidden" id="currentPage" name="currentPage" value=""/>
 	
-			<jsp:include page="../common/pageNavigator.jsp"/>	
+<%--			<jsp:include page="../common/pageNavigator.jsp"/>	--%>
 			
     	</td>
 	</tr>

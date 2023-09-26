@@ -1,19 +1,22 @@
 package com.model2.mvc.service.product.impl;
 
 import com.model2.mvc.common.Search;
+import com.model2.mvc.entity.ProductEntity;
 import com.model2.mvc.mapper.ProductMapper;
 import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.product.ProductRepository;
 import com.model2.mvc.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service("productServiceImpl")
@@ -30,29 +33,39 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProduct(int prod_no) throws Exception {
-//        return productRepository.findById(prod_no);
-        return null;
+        Optional<ProductEntity> productEntityOptional = productRepository.findById(prod_no);
+        return productEntityOptional.map(productMapper::productEntityToProduct).orElse(null);
     }
 
     @Override
     public Map<String, Object> getProductList(Search search) throws Exception {
-        Pageable pageable = PageRequest.of(1,10);
-        //Page<Product> p = productRepository.findByProdNameContaining(search.getSearchKeyword(), pageable);
+        Sort sort = Sort.by(search.getOrderBy());
+        Pageable pageable = PageRequest.of(search.getCurrentPage(), search.getPageUnit(), sort);
+        Page<ProductEntity> page;
+        if(search.getSearchKeyword() == null || search.getSearchKeyword().isEmpty()){
+            page = productRepository.findAll(pageable);
+        }else{
+            page = productRepository.findByProdNameContaining(search.getSearchKeyword(), pageable);
+        }
+
         Map<String, Object> map = new HashMap<>();
-        //map.put("list", productDao.getProductList(search));
-//        map.put("count", productDao.getTotalCount(search));
+        map.put("list", page.map(productMapper::productEntityToProduct).toList());
+        map.put("count", page.getTotalPages());
         return map;
     }
 
     @Override
     public int updateProduct(Product product) throws Exception {
-//        return productDao.updateProduct(product);
-        return 0;
+        if(productRepository.findById(product.getProdNo()).isPresent()) {
+            productRepository.save(productMapper.productToProductEntity(product));
+            return 1;
+        }else{
+            return 0;
+        }
     }
 
     @Override
     public List<String> getProductListName() throws Exception {
-//        return productDao.getProductListName();
         return null;
     }
 

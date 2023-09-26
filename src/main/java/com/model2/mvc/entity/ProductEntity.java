@@ -3,7 +3,7 @@ package com.model2.mvc.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 
@@ -34,7 +34,7 @@ public class ProductEntity extends BaseEntity{
 
     private int stock;
 
-    @OneToMany(mappedBy = "productEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "productEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<PurchaseEntity> purchaseEntities;
 
 

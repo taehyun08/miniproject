@@ -100,6 +100,7 @@ public class PurchaseRestController {
         if(search.getCurrentPage() == 0) {
             search.setCurrentPage(1);
         }
+        search.setOrderBy("tranNo");
         int startRowNum = search.getCurrentPage() * pageSize - pageSize+1;
         int endRowNum = startRowNum + pageSize - 1;
         System.out.println("startRowNum :: " + startRowNum + "\nendRowNum:: " + endRowNum);
@@ -108,12 +109,8 @@ public class PurchaseRestController {
         search.setPageUnit(pageSize);
         System.out.println(search.getSearchCondition() + " " + search.getSearchKeyword());
         Map<String, Object> inputMap = new HashMap<>();
-        List<Purchase> list = purchaseService.getPurchaseList(inputMap);
-        int count = purchaseService.getTotalCount(userId);
+        Map<String, Object> resultMap = purchaseService.getPurchaseList(inputMap);
 
-        Map<String,Object> resultMap = new HashMap<>();
-        resultMap.put("list", list);
-        resultMap.put("count", count);
         //Business Logic
         ModelAndView modelAndView = new ModelAndView();
 

@@ -9,7 +9,7 @@
 	<link rel="stylesheet" href="/css/admin.css" type="text/css">
 	
 	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-	<script type="text/javascript" src="../../javascript/calendar.js"></script>
+	<script type="text/javascript" src="../../../javascript/calendar.js"></script>
 	<script type="text/javascript">
 	
 		function fncAddProduct() {
@@ -131,7 +131,7 @@
 		<td class="ct_write01">
 			<input type="text" name="manuDate" readonly="readonly" class="ct_input_g"  
 						style="width: 100px; height: 19px"	maxLength="10" minLength="6"/>
-				&nbsp;<img src="../../images/ct_icon_date.gif" width="15" height="15"
+				&nbsp;<img src="../../../images/ct_icon_date.gif" width="15" height="15"
                            onclick="show_calendar('document.detailForm.manuDate', document.detailForm.manuDate.value)"/>
 		</td>
 	</tr>

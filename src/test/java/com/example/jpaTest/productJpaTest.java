@@ -1,10 +1,12 @@
 package com.example.jpaTest;
 
+import com.model2.mvc.common.Search;
 import com.model2.mvc.entity.ProductEntity;
 import com.model2.mvc.entity.QProductEntity;
 import com.model2.mvc.mapper.ProductMapper;
 import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.product.ProductRepository;
+import com.model2.mvc.service.product.ProductService;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import org.junit.jupiter.api.Test;
@@ -16,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 @SpringBootTest
@@ -26,7 +29,10 @@ class ProductJpaApplicationTest {
     @Autowired
     ProductRepository productRepository;
 
-    @Test
+    @Autowired
+    ProductService productService;
+
+    //@Test
     public void testProductJpa(){
         Product product = Product.builder().prodNo(10).prodName("orp").build();
         ProductEntity productEntity = productMapper.productToProductEntity(product);
@@ -45,6 +51,7 @@ class ProductJpaApplicationTest {
     public void testInsert(){
         IntStream.rangeClosed(1,100).forEach(i -> {
             ProductEntity productEntity = ProductEntity.builder()
+                    .fileName("filee")
                     .price(100)
                     .stock(55)
                     .prodDetail("싸요")
@@ -86,10 +93,21 @@ class ProductJpaApplicationTest {
 
     //@Test
     public void testEntitiesToDto(){
-        Pageable pageable = PageRequest.of(1,10);
-        Page<ProductEntity> result =  productRepository.findByProdNameContaining("1", pageable);
-        List<Product> products = productMapper.productEntitiesToProduct(result.getContent());
-        products.forEach(System.out::println);
+//        Pageable pageable = PageRequest.of(1,10);
+//        Page<ProductEntity> result =  productRepository.findByProdNameContaining("1", pageable);
+//        List<Product> products = productMapper.productEntitiesToProduct(result.getContent());
+//        products.forEach(System.out::println);
+    }
+
+    @Test
+    public void testGetProductList() throws Exception{
+        Search search = Search.builder()
+                .orderBy("prodNo")
+                .pageUnit(5)
+                .currentPage(1)
+                .build();
+        Map<String, Object> map =  productService.getProductList(search);
+        System.out.println(map);
     }
 
 }

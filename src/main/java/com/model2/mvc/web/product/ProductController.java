@@ -4,6 +4,9 @@ import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.product.ProductService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,9 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -50,7 +50,7 @@ public class ProductController {
 
     @GetMapping(value="addProduct")
     public String addProductView() throws Exception {
-        return "redirect:/product/addProductView";
+        return "/product/addProductView";
     }
 
     @PostMapping(value="addProduct")
@@ -85,12 +85,12 @@ public class ProductController {
         String[] fileNames = product.getFileName().split(",");
         model.addAttribute("fileNames", fileNames);
 
-        return "forward:/product/addProduct";
+        return "/product/addProduct";
     }
 
     @RequestMapping(value="getProduct")
-    public String getProduct( @RequestParam("prodNo") int prodNo, @ModelAttribute("menu") String menu, HttpServletRequest request, HttpServletResponse response , Model model ) throws Exception {
-
+    public String getProduct(@RequestParam("prodNo") int prodNo, @ModelAttribute("menu") String menu, HttpServletRequest request, HttpServletResponse response , Model model ) throws Exception {
+        System.out.println("getProduct execute");
         //Business Logic
         Product product = productService.getProduct(prodNo);
 
@@ -113,7 +113,7 @@ public class ProductController {
         model.addAttribute("fileNames", fileNames);
         model.addAttribute("product", product);
 
-        return "forward:/product/getProductView";
+        return "/product/getProductView";
     }
 
     @RequestMapping(value="listProduct")
@@ -142,7 +142,7 @@ public class ProductController {
         model.addAttribute("page", p);
         model.addAttribute("menu", menu);
         // Model 과 View 연결
-        return "forward:/product/listProductView";
+        return "/product/listProductView";
     }
 
     @RequestMapping(value="/updateProduct", method = RequestMethod.GET)
@@ -153,17 +153,17 @@ public class ProductController {
         Product product = productService.getProduct(prodNo);
         model.addAttribute("product", product);
 
-        return "forward:/product/updateProductView";
+        return "/product/updateProductView";
     }
 
     @RequestMapping(value="/updateProduct", method = RequestMethod.POST)
-    public String updateProduct( @ModelAttribute("product") Product product , Model model) throws Exception{
-
+    public String updateProduct( @ModelAttribute Product product) throws Exception{
         System.out.println("/updateProduct.do");
-        //Business Logic
+        product.setManuDate(product.getManuDate().trim());
+        System.out.println(product.getManuDate());
         productService.updateProduct(product);
 
-        return "forward:/product/getProduct?prodNo="+product.getProdNo();
+        return "redirect:/product/getProduct?prodNo="+product.getProdNo()+"&menu=ok";
     }
 
 

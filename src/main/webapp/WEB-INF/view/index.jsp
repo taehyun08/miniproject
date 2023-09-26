@@ -227,9 +227,9 @@
           <c:if test="${ !empty user }">
 		  	<li class="nav-item"><a class="nav-link" href="/user/getUser?userId=${user.userId}">개인정보조회</a></li>
 		  </c:if>
-		  <c:if test="${user.role == 'admin'}">
+		  <c:if test="${((user.role).trim()).equals('admin')}">
 			<li class="nav-item"><a class="nav-link" href="/user/listUser">회원정보조회</a></li>
-			<li class="nav-item"><a class="nav-link" href="/product/addProductView">판매상품등록</a></li>
+			<li class="nav-item"><a class="nav-link" href="/product/addProduct">판매상품등록</a></li>
 			<li class="nav-item"><a class="nav-link" href="/product/listProduct?menu=manage">판매상품관리</a></li>
 		  </c:if>
 		  <li class="nav-item"><a class="nav-link" href="/product/listProduct?menu=search">상품검색</a></li>

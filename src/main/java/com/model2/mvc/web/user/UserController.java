@@ -1,10 +1,11 @@
 package com.model2.mvc.web.user;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
+import com.model2.mvc.common.Page;
+import com.model2.mvc.common.Search;
+import com.model2.mvc.service.domain.User;
+import com.model2.mvc.service.user.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,10 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.model2.mvc.common.Page;
-import com.model2.mvc.common.Search;
-import com.model2.mvc.service.domain.User;
-import com.model2.mvc.service.user.UserService;
+import java.util.Map;
 
 
 //==> 회원관리 Controller
@@ -48,7 +46,7 @@ public class UserController {
     @RequestMapping( value="addUser", method=RequestMethod.GET )
     public String addUser() throws Exception{
 
-        System.out.println("/WEB-INF/user/addUser : GET");
+        System.out.println("/webapp/WEB-INF/view/user/addUser : GET");
 
         return "redirect:/user/addUserView";
     }
@@ -57,7 +55,7 @@ public class UserController {
     @RequestMapping( value="addUser", method=RequestMethod.POST )
     public String addUser( @ModelAttribute("user") User user ) throws Exception {
 
-        System.out.println("/WEB-INF/user/addUser : POST");
+        System.out.println("/webapp/WEB-INF/view/user/addUser : POST");
         //Business Logic
         userService.addUser(user);
 
@@ -68,13 +66,13 @@ public class UserController {
     @RequestMapping( value="getUser", method=RequestMethod.GET )
     public String getUser( @RequestParam("userId") String userId , Model model ) throws Exception {
 
-        System.out.println("/WEB-INF/user/getUser : GET");
+        System.out.println("/webapp/WEB-INF/view/user/getUser : GET");
         //Business Logic
         User user = userService.getUser(userId);
         // Model 과 View 연결
         model.addAttribute("user", user);
 
-        return "forward:/user/getUser";
+        return "/user/getUser";
     }
 
     //@RequestMapping("/updateUserView.do")
@@ -82,7 +80,7 @@ public class UserController {
     @RequestMapping( value="updateUser", method=RequestMethod.GET )
     public String updateUser( @RequestParam("userId") String userId , Model model ) throws Exception{
 
-        System.out.println("/WEB-INF/user/updateUser : GET");
+        System.out.println("/webapp/WEB-INF/view/user/updateUser : GET");
         //Business Logic
         User user = userService.getUser(userId);
         // Model 과 View 연결
@@ -95,7 +93,7 @@ public class UserController {
     @RequestMapping( value="updateUser", method=RequestMethod.POST )
     public String updateUser( @ModelAttribute("user") User user , Model model , HttpSession session) throws Exception{
 
-        System.out.println("/WEB-INF/user/updateUser : POST");
+        System.out.println("/webapp/WEB-INF/view/user/updateUser : POST");
         //Business Logic
         userService.updateUser(user);
 
@@ -113,35 +111,35 @@ public class UserController {
     @RequestMapping( value="login", method=RequestMethod.GET )
     public String login() throws Exception{
 
-        System.out.println("/WEB-INF/user/logon : GET");
+        System.out.println("/webapp/WEB-INF/view/user/logon : GET");
 
-        return "redirect:/user/loginView";
+        return "/user/loginView";
     }
 
     //@RequestMapping("/login.do")
     @RequestMapping( value="login", method=RequestMethod.POST )
     public String login(@ModelAttribute("user") User user , HttpSession session ) throws Exception{
 
-        System.out.println("/WEB-INF/user/login : POST");
+        System.out.println("/webapp/WEB-INF/view/user/login : POST");
         //Business Logic
         User dbUser=userService.getUser(user.getUserId());
 
         if( user.getPassword().equals(dbUser.getPassword())){
             session.setAttribute("user", dbUser);
         }
-
-        return "redirect:/index";
+        System.out.println(dbUser);
+        return "redirect:/";
     }
 
     //@RequestMapping("/logout.do")
     @RequestMapping( value="logout", method=RequestMethod.GET )
     public String logout(HttpSession session ) throws Exception{
 
-        System.out.println("/WEB-INF/user/logout : POST");
+        System.out.println("/webapp/WEB-INF/view/user/logout : POST");
 
         session.invalidate();
 
-        return "redirect:/index";
+        return "redirect:/";
     }
 
 
@@ -149,7 +147,7 @@ public class UserController {
     @RequestMapping( value="checkDuplication", method=RequestMethod.POST )
     public String checkDuplication( @RequestParam("userId") String userId , Model model ) throws Exception{
 
-        System.out.println("/WEB-INF/user/checkDuplication : POST");
+        System.out.println("/webapp/WEB-INF/view/user/checkDuplication : POST");
         //Business Logic
         boolean result=userService.checkDuplication(userId);
         // Model 과 View 연결
@@ -161,27 +159,32 @@ public class UserController {
 
     //@RequestMapping("/listUser.do")
     @RequestMapping( value="listUser" )
-    public String listUser( @ModelAttribute("search") Search search , Model model , HttpServletRequest request) throws Exception{
+    public String listUser( @ModelAttribute Search search , Model model) throws Exception{
 
-        System.out.println("/WEB-INF/user/listUser : GET / POST");
+        System.out.println("/webapp/WEB-INF/view/user/listUser : GET / POST");
 
         if(search.getCurrentPage() ==0 ){
             search.setCurrentPage(1);
         }
         search.setPageUnit(pageSize);
-
+        if(search.getOrderBy() == null){
+            search.setOrderBy("userId");
+        }
+        int startRowNum = search.getCurrentPage() * pageSize - pageSize+1;
+        int endRowNum = startRowNum + pageSize - 1;
+        search.setStartRowNum(startRowNum);
+        search.setEndRowNum(endRowNum);
         // Business logic 수행
         Map<String , Object> map=userService.getUserList(search);
 
-        Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+        Page resultPage = new Page( search.getCurrentPage(), (Integer) map.get("totalCount"), pageUnit, pageSize);
         System.out.println(resultPage);
-
         // Model 과 View 연결
         model.addAttribute("list", map.get("list"));
         model.addAttribute("resultPage", resultPage);
         model.addAttribute("search", search);
-
-        return "forward:/user/listUser";
+        System.out.println("되나");
+        return "/user/listUser";
     }
 
 }
