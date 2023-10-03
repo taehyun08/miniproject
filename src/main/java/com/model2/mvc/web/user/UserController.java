@@ -48,7 +48,7 @@ public class UserController {
 
         System.out.println("/webapp/WEB-INF/view/user/addUser : GET");
 
-        return "redirect:/user/addUserView";
+        return "/user/addUserView";
     }
 
     //@RequestMapping("/addUser.do")
@@ -59,7 +59,7 @@ public class UserController {
         //Business Logic
         userService.addUser(user);
 
-        return "redirect:/user/loginView";
+        return "/user/loginView";
     }
 
     //@RequestMapping("/getUser.do")

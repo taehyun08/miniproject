@@ -11,16 +11,20 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 ;
 
 @RequiredArgsConstructor
 @Service("userServiceImpl")
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     ///Field
     private final UserRepository userRepository;
@@ -63,4 +67,6 @@ public class UserServiceImpl implements UserService{
         }
         return result;
     }
+
+
 }
