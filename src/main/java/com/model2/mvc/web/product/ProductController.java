@@ -1,5 +1,6 @@
 package com.model2.mvc.web.product;
 
+import com.model2.security.UserAuthorize;
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Product;
@@ -116,6 +117,7 @@ public class ProductController {
         return "/product/getProductView";
     }
 
+    @UserAuthorize
     @RequestMapping(value="listProduct")
     public String listProduct( @ModelAttribute("search") Search search , @RequestParam("menu") String menu, Model model ) throws Exception{
         System.out.println("/listProduct.do");
