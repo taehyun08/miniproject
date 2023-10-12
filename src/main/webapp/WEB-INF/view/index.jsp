@@ -257,18 +257,18 @@
           Learn more
           <svg class="bi"><use xlink:href="#chevron-right"/></svg>
         </a>
-        <c:if test="${ empty user }">
+        <sec:authorize access="isAnonymous()">
 			<a class="icon-link" href="/user/login">
           		Login
         		<svg class="bi"><use xlink:href="#chevron-right"/></svg>
         	</a>
-		</c:if>   
-		<c:if test="${ !empty user }">
+        </sec:authorize>
+        <sec:authorize access="isAuthenticated()">
 			<a class="icon-link" href="/user/logout">
           		Logout
         		<svg class="bi"><use xlink:href="#chevron-right"/></svg>
         	</a>
-		</c:if>   
+        </sec:authorize>
        
       </div>
     </div>

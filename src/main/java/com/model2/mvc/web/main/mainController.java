@@ -17,13 +17,7 @@ public class mainController {
 
     @GetMapping("/")
     public String index(@AuthenticationPrincipal UserDetails user, Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication instanceof OAuth2AuthenticationToken){
-            OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken) authentication;
-
-            String userName = oAuth2AuthenticationToken.getName();
-            log.info(userName);
-        }
+        log.info(user);
         return "/index";
     }
 }

@@ -201,9 +201,10 @@ public class UserController {
             User user = new User();
             user.setUserId((String)userMap.get("userId"));
             user.setUserName((String)userMap.get("name"));
+            user.setRole((String)userMap.get("role"));
 
             session.setAttribute("user", user);
-
+            log.info(user);
         }
         return "redirect:/";
     }

@@ -1,14 +1,18 @@
 package com.model2.mvc.service.user.impl;
 
 import com.model2.mvc.entity.UserEntity;
+import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.user.UserRepository;
 import com.model2.mvc.service.user.oauth.Oauth2UserInfo;
 import com.model2.mvc.service.user.oauth.impl.GoogleUserInfo;
 import com.model2.mvc.service.user.oauth.impl.KakaoUserInfo;
 import com.model2.mvc.service.user.oauth.impl.NaverUserInfo;
+import com.model2.security.PrincipalDetails;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.hibernate.mapping.Collection;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,6 +35,7 @@ public class Oauth2UserServiceImpl extends DefaultOAuth2UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final HttpSession httpSession;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -70,10 +75,19 @@ public class Oauth2UserServiceImpl extends DefaultOAuth2UserService {
                     .password(passwordEncoder.encode("1111"))
                     .build();
             userRepository.save(userEntity);
+        }else{
+            userEntity = optionalUser.get();
         }
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("userId", email);
         attributes.put("name", nickname);
-        return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority("user")), attributes, "name");
+        attributes.put("role", "user");
+
+        User user = User.builder()
+                .userName(nickname)
+                .userId(email)
+                .role("user").build();
+        httpSession.setAttribute("user", user);
+        return new PrincipalDetails(userEntity, attributes);
     }
 }
