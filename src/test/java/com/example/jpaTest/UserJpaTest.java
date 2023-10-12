@@ -38,7 +38,7 @@ public class UserJpaTest {
         UserEntity user = UserEntity.builder()
                 .userId("admin")
                 .userName("adm")
-                .password(passwordEncoder.encode("1111"))
+                .password(passwordEncoder.encode("1234"))
                 .role("admin")
                 .build();
         userRepository.save(user);

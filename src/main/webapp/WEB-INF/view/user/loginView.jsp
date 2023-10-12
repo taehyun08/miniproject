@@ -117,9 +117,12 @@
                          	<a href="/user/addUser">
                          		<img src="/images/btn_add.gif" width="70" height="20" border="0">
                          	</a>
-                         	<a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=0f12bcf81962a4c2a3227a464234159a&redirect_uri=http://127.0.0.1:8080/kakao/oauth">
-    							Kakao 로그인
-							</a>
+<%--                         	<a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=0f12bcf81962a4c2a3227a464234159a&redirect_uri=http://127.0.0.1:8080/kakao/oauth">--%>
+<%--    							Kakao 로그인--%>
+<%--							</a>--%>
+                             <a href="/oauth2/authorization/google">구글 로그인</a><br>
+                             <a href="/oauth2/authorization/kakao">카카오 로그인</a><br>
+                             <a href="/oauth2/authorization/naver">네이버 로그인</a>
                          </td>
                        </tr>
                      </table>

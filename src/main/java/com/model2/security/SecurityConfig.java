@@ -31,6 +31,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
                         .requestMatchers(
+                                new AntPathRequestMatcher("/"),
                                 new AntPathRequestMatcher("/static/**"),
                                 new AntPathRequestMatcher("/user/addUser"),
                                 new AntPathRequestMatcher("/images/**"),
@@ -43,11 +44,16 @@ public class SecurityConfig {
                         .loginProcessingUrl("/user/login")
                         .usernameParameter("userId")
                         .passwordParameter("password")
-//                        .defaultSuccessUrl("/")
-                        .defaultSuccessUrl("/", true) // 왜 true하는 지 모르겠어서 잠시 빼둠
+                        .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
-                .logout(Customizer.withDefaults());
+                .logout(Customizer.withDefaults())
+                .oauth2Login(oauth2Configurer -> oauth2Configurer
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/user/oauth", true)
+                );
+
+
 
 
 

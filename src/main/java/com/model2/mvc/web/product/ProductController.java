@@ -1,5 +1,6 @@
 package com.model2.mvc.web.product;
 
+import com.model2.security.AdminAuthorize;
 import com.model2.security.UserAuthorize;
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
@@ -49,11 +50,13 @@ public class ProductController {
     int pageSize;
 
 
+    @AdminAuthorize
     @GetMapping(value="addProduct")
     public String addProductView() throws Exception {
         return "/product/addProductView";
     }
 
+    @AdminAuthorize
     @PostMapping(value="addProduct")
     public String addProduct( @RequestParam("files") List<MultipartFile> files, @ModelAttribute("product") Product product, Model model ) throws Exception {
 

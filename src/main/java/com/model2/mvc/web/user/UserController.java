@@ -6,21 +6,24 @@ import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 
 //==> 회원관리 Controller
 @Controller
+@Log4j2
 @RequestMapping("/user/*")
 public class UserController {
 
@@ -185,6 +188,24 @@ public class UserController {
         model.addAttribute("search", search);
         System.out.println("되나");
         return "/user/listUser";
+    }
+
+    @GetMapping(value = "oauth")
+    public String oauthLogin(HttpSession session){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication instanceof OAuth2AuthenticationToken){
+            OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken) authentication;
+            Map<String, Object> userMap = oAuth2AuthenticationToken.getPrincipal().getAttributes();
+
+
+            User user = new User();
+            user.setUserId((String)userMap.get("userId"));
+            user.setUserName((String)userMap.get("name"));
+
+            session.setAttribute("user", user);
+
+        }
+        return "redirect:/";
     }
 
 }

@@ -225,17 +225,17 @@
             <svg class="bi" width="24" height="24"><use xlink:href="#aperture"/></svg>
           </a></li>
 
-          <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')">
+          <sec:authorize access="hasAnyRole('admin', 'user')">
 		  	<li class="nav-item"><a class="nav-link" href="/user/getUser?userId=${user.username}">개인정보조회</a></li>
           </sec:authorize>
-          <sec:authorize access="hasRole('ROLE_ADMIN')">
+          <sec:authorize access="hasRole('admin')">
 			<li class="nav-item"><a class="nav-link" href="/user/listUser">회원정보조회</a></li>
 			<li class="nav-item"><a class="nav-link" href="/product/addProduct">판매상품등록</a></li>
 			<li class="nav-item"><a class="nav-link" href="/product/listProduct?menu=manage">판매상품관리</a></li>
           </sec:authorize>
 		  <li class="nav-item"><a class="nav-link" href="/product/listProduct?menu=search">상품검색</a></li>
 
-          <sec:authorize access="hasAnyRole('ROLE_ANONYMOUS', 'ROLE_USER')">
+          <sec:authorize access="hasRole('user')">
           	<li class="nav-item"><a class="nav-link" href="/purchase/listPurchase">구매이력조회</a></li>
           </sec:authorize>
           <li class="nav-item"><a class="nav-link" href="javascript:history()">최근 본 상품</a></li>
