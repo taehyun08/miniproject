@@ -226,7 +226,7 @@
           </a></li>
 
           <sec:authorize access="hasAnyRole('admin', 'user')">
-		  	<li class="nav-item"><a class="nav-link" href="/user/getUser?userId=${user.username}">개인정보조회</a></li>
+		  	<li class="nav-item"><a class="nav-link" href="/user/getUser?userId=${user.userName}">개인정보조회</a></li>
           </sec:authorize>
           <sec:authorize access="hasRole('admin')">
 			<li class="nav-item"><a class="nav-link" href="/user/listUser">회원정보조회</a></li>

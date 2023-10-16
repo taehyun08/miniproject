@@ -24,7 +24,11 @@ public class PrincipalDetailsService implements UserDetailsService {
         Optional<UserEntity> userEntityOptional = userRepository.findById(userId);
         UserEntity userEntity = userEntityOptional.orElseThrow(()-> new UsernameNotFoundException("없는 회원"));
         session.setAttribute("user", userEntity);
-        return new PrincipalDetails(userEntity);
+        return User.builder()
+                .username(userEntity.getUserName())
+                .password(userEntity.getPassword())
+                .roles(userEntity.getRole())
+                .build();
     }
 
 }

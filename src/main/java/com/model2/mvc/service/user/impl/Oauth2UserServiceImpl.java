@@ -7,14 +7,10 @@ import com.model2.mvc.service.user.oauth.Oauth2UserInfo;
 import com.model2.mvc.service.user.oauth.impl.GoogleUserInfo;
 import com.model2.mvc.service.user.oauth.impl.KakaoUserInfo;
 import com.model2.mvc.service.user.oauth.impl.NaverUserInfo;
-import com.model2.security.PrincipalDetails;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.hibernate.mapping.Collection;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -88,6 +84,6 @@ public class Oauth2UserServiceImpl extends DefaultOAuth2UserService {
                 .userId(email)
                 .role("user").build();
         httpSession.setAttribute("user", user);
-        return new PrincipalDetails(userEntity, attributes);
+        return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority("user")), attributes, "userId");
     }
 }
