@@ -390,6 +390,7 @@
       </ul>
     </div>
   </div>
+  <a class="nav-link" href="/user/chat">Ã¤ÆÃ¹æ</a>
 </footer>
 </div>
     </body>
